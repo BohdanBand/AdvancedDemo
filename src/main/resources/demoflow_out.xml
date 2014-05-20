@@ -13,10 +13,9 @@
     <flow name="SaveToFile">
         <vm:inbound-endpoint ref="save.to.file.message.outbound"/>
 
-
         <logger message="File name: #[header:SESSION:fileName]"/>
         <file:outbound-endpoint path="${file.path}"
-                                outputPattern="#[header:SESSION:fileName]_#[function:dateStamp-yyyyMMdd].txt"/>
+                                outputPattern="#[header:SESSION:fileName]_#[function:dateStamp-yyyy-MM-dd_HH-mm-SSS].txt"/>
         <logger message="Text saved locally" level="INFO"/>
     </flow>
 
@@ -33,7 +32,7 @@
 
     </flow>
 
-    <flow name="Errorprocessing">
+    <flow name="ErrorProcessing">
         <vm:inbound-endpoint ref="error.inbound"/>
 
 

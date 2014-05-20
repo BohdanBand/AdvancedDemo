@@ -24,12 +24,13 @@
         </choice>
 
         <default-exception-strategy>
-            <!--<vm:outbound-endpoint path="error.inbound"/>-->
+
             <file:outbound-endpoint path="d:/JUG/FILE/ERROR"
                                     outputPattern="ERROR_#[function:dateStamp-yyyyMMdd].txt"/>
         </default-exception-strategy>
     </flow>
 
 </mule>
+<!--<vm:outbound-endpoint path="error.inbound"/>-->
 <!--<transformer ref="TimeOut"/>-->
 <!--<transformer ref="TestTransformer"/>-->
