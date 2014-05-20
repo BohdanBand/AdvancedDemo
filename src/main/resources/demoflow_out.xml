@@ -1,0 +1,46 @@
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:file="http://www.mulesoft.org/schema/mule/file"
+      xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+       				http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+       				http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+       				http://www.mulesoft.org/schema/mule/ftp 		http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+
+
+
+    <flow name="SaveToFile">
+        <vm:inbound-endpoint ref="save.to.file.message.outbound"/>
+
+
+        <logger message="File name: #[header:SESSION:fileName]"/>
+        <file:outbound-endpoint path="${file.path}"
+                                outputPattern="#[header:SESSION:fileName]_#[function:dateStamp-yyyyMMdd].txt"/>
+        <logger message="Text saved locally" level="INFO"/>
+    </flow>
+
+    <flow name="SaveToFTP">
+        <vm:inbound-endpoint ref="save.to.ftp.message.outbound" exchange-pattern="request-response"/>
+
+        <logger message="File name: #[header:SESSION:fileName]"/>
+
+        <ftp:outbound-endpoint host="${ftp.host}" port="${ftp.port}" path="${ftp.path}" user="${ftp.user}"
+                               password="${ftp.pass}"
+                               outputPattern="#[header:SESSION:fileName]_#[function:dateStamp-yyyy-MM-dd_HH-mm-SSS].txt"
+                               responseTransformer-refs="ResponseTransformer"/>
+        <logger message="Text saved on FTP" level="INFO"/>
+
+    </flow>
+
+    <flow name="Errorprocessing">
+        <vm:inbound-endpoint ref="error.inbound"/>
+
+
+        <file:outbound-endpoint path="d:/JUG/FILE/ERROR"
+                                outputPattern="ERROR_#[function:dateStamp-yyyyMMdd].txt"/>
+        <logger message="Text saved locally" level="INFO"/>
+    </flow>
+
+</mule>
+<!--<transformer ref="TestTransformer"/>-->

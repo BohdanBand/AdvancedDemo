@@ -1,0 +1,32 @@
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:beans="http://www.springframework.org/schema/beans"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+       				http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+
+
+       				http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+       				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <vm:endpoint name="process.message.outbound" path="process.message.outbound" exchange-pattern="request-response"/>
+    <vm:endpoint name="save.to.file.message.outbound" path="save.to.file.message.outbound"
+                 exchange-pattern="request-response"/>
+    <vm:endpoint name="save.to.ftp.message.outbound" path="save.to.ftp.message.outbound"
+                 exchange-pattern="request-response"/>
+
+
+    <vm:endpoint name="error.inbound" path="error.inbound" exchange-pattern="one-way"/>
+
+
+    <custom-transformer name="TestTransformer" class="jug.lviv.TestTransformer"/>
+    <custom-transformer name="TimeOut" class="jug.lviv.TimeOut"/>
+    <custom-transformer name="ParseRequestTransformer" class="jug.lviv.transformer.ParseRequestTransformer"/>
+    <custom-transformer name="ResponseTransformer" class="jug.lviv.transformer.ResponseTransformer"/>
+
+    <!-- Evaluators -->
+    <beans:bean class="jug.lviv.evaluator.MessageRouteEvaluator"/>
+
+</mule>

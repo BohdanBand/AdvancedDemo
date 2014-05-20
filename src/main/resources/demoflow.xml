@@ -1,0 +1,35 @@
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:file="http://www.mulesoft.org/schema/mule/file"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+       				http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+       				http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+       				http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <flow name="BusinessLogicFlow">
+
+        <vm:inbound-endpoint ref="process.message.outbound"/>
+        <transformer ref="ParseRequestTransformer"/>
+
+        <choice>
+            <when expression="savetofile" custom-evaluator="MessageRouteEvaluator" evaluator="custom">
+                <vm:outbound-endpoint ref="save.to.file.message.outbound" exchange-pattern="request-response"/>
+            </when>
+
+            <otherwise>
+                <vm:outbound-endpoint ref="save.to.ftp.message.outbound" exchange-pattern="request-response"/>
+            </otherwise>
+        </choice>
+
+        <default-exception-strategy>
+            <!--<vm:outbound-endpoint path="error.inbound"/>-->
+            <file:outbound-endpoint path="d:/JUG/FILE/ERROR"
+                                    outputPattern="ERROR_#[function:dateStamp-yyyyMMdd].txt"/>
+        </default-exception-strategy>
+    </flow>
+
+</mule>
+<!--<transformer ref="TimeOut"/>-->
+<!--<transformer ref="TestTransformer"/>-->
