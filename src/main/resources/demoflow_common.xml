@@ -23,10 +23,10 @@
 
     <custom-transformer name="TestTransformer" class="jug.lviv.TestTransformer"/>
     <custom-transformer name="TimeOut" class="jug.lviv.TimeOut"/>
-    <custom-transformer name="ParseRequestTransformer" class="jug.lviv.transformer.ParseRequestTransformer"/>
-    <custom-transformer name="ResponseTransformer" class="jug.lviv.transformer.ResponseTransformer"/>
+    <custom-transformer name="ParseRequestTransformer" class="jug.lviv.jeeconf.mule.transformer.ParseRequestTransformer"/>
+    <custom-transformer name="ResponseTransformer" class="jug.lviv.jeeconf.mule.transformer.ResponseTransformer"/>
 
     <!-- Evaluators -->
-    <beans:bean class="jug.lviv.evaluator.MessageRouteEvaluator"/>
+    <beans:bean class="jug.lviv.jeeconf.mule.evaluator.MessageRouteEvaluator"/>
 
 </mule>

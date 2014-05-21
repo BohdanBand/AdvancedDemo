@@ -1,4 +1,4 @@
-package jug.lviv.transformer;
+package jug.lviv.jeeconf.mule.transformer;
 
 import org.apache.commons.lang.StringUtils;
 import org.mule.api.MuleMessage;
